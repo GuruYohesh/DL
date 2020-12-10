@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<style>
+
+body {
+	background-image:url(malaria_img.jpg);
+	background-position:center;
+	background-size:cover;
+	margin-top:100px;
+	font-family: Arial, 
+	Helvetica, sans-serif;
+	}
+
+.malform{
+	width: 800px;
+	background-color:rgb(0,0,0,0.6);
+	margin:auto;
+	color:#FFFFFF;
+	padding:10px 0px 10px 0px;
+	text-align:center;
+	border-radius:15px 15px 0px 0px;
+	}
+.main{
+	background-color:rgb(0,0,0,0.3);
+	width:800px;
+	margin:auto;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.image-preview{
+	width: 300px;
+	min-height: 100px;
+	border: 2px solid #dddddd;
+	margin-top:15px;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: #cccccc;
+
+}
+
+.image-preview__image{
+	display: none;
+	width: 100%;
+	
+}
+.myBtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.myBtn:hover {
+  background-color: #45a049;
+}
+
+
+
+</style>
+</head>
+<body>
+<form action="\Predict" method="post">
+<div class = "malform"><h2>Malaria Prediction using Blood Smear Images</h2></div>
+<div class = "main">
+<!--Image Uploader-->
+<center>
+<input type = "file" name  = "inpFile" id = "inpFile">
+<div class="image-preview" id = "imagePreview">
+<img src="" alt= "Image Preview" class="image-preview__image">
+<span class ="image-preview__default-text">Image Preview</span>
+</div>
+</center>
+<br>
+<!-- Trigger/Open The Modal -->
+<center><button id="myBtn" class = "myBtn">Predict</button></center>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Malaria Prediction</h2>
+    </div>
+    <div class="modal-body">
+      <p>Some text in the Modal Body</p>
+    </div>
+      </div>
+
+</div>
+</div>
+</form>
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+const inpFile = document.getElementById("inpFile");
+const previewContainer = document.getElementById("imagePreview");
+const previewImage = previewContainer.querySelector(".image-preview__image");
+const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+
+inpFile.addEventListener("change", function() {
+	const file = this.files[0];
+	if (file) {
+		const reader = new FileReader();
+		previewDefaultText.style.display = "none";   
+		previewImage.style.display = "block";
+		reader.addEventListener("load", function(){
+			previewImage.setAttribute("src", this.result);		
+		});
+		reader.readAsDataURL(file);
+	}else{
+		previewDefaultText.style.display = null;
+		previewImage.style.display = null;
+		previewImage.setAttribute("src", "");
+	}
+	
+}); 
+
+</script>
+</body>
+</html>
